@@ -1,14 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>.</title>    
+    <title></title>
 </head>
 <body>
-    <input id='from' type='text' />
-    <input id='to' type='text' />
-    <button type='button'>Click Me</button>
-    <input id='price' type='text' />
-    <input id='percentage' type='text' />
-    <button type='button'>Click Me</button>
+    <input type="number" placeholder="A" id="a" />
+    <input type="number" placeholder="B" id="b" />
+    <button id="ab" type="button">Compute</button>
+    <b id="rab"></b>
+    <hr>
+    <input type="number" placeholder="C" id="c" />
+    <input type="number" placeholder="D" id="d" />
+    <button id="cd" type="button">Compute</button>
+    <b id="rcd"></b>
+
+    <script>
+        let ab = document.querySelector('#ab'),
+            a = document.querySelector('#a'),
+            b = document.querySelector('#b'),
+            rab = document.querySelector('#rab'),
+            cd = document.querySelector('#cd'),
+            c = document.querySelector('#c'),
+            d = document.querySelector('#d'),
+            rcd = document.querySelector('#rcd');
+
+        ab.addEventListener('click', () => {
+            let _a = +a.value,
+                _b = +b.value;
+
+            rab.innerHTML = `${Math.floor(((_b - _a) / _a) * 100)}%`;
+        }, false);
+
+        cd.addEventListener('click', () => {
+            let _c = +c.value,
+                _d = +d.value,
+                cc = Math.round((_c * (_d / 100)));
+
+            rcd.innerHTML = `${cc.toLocaleString('en-US')} (${(_c + cc).toLocaleString('en-US')})`;
+        }, false);
+    </script>
 </body>
 </html>
