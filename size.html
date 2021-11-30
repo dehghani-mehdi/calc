@@ -1,1 +1,92 @@
-HI
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- <link rel="stylesheet" href="https://dl.dropboxusercontent.com/s/8q9dhewl3ss46zh/mathilda.min.css?dl=0" /> -->
+    <link rel="stylesheet" href="mathilda.min.css" />
+</head>
+
+<body class="fs-2 ff-m bc-n0">
+    <div class="container mt-4">
+        <div class="d-f fw-w mx-2-">
+            <div class="w-2/12 px-2">
+                <select id="js__type" class="p-1 bw-1 bc--n3 w-100 br-0">
+                    <option value="boors">Boors</option>
+                    <option value="fara">Fara Boors</option>
+                </select>
+            </div>
+            <div class="w-2/12 px-2">
+                <input id="js__money" class="p-1 bw-1 bc--n3 w-100 f:o-n f:bc--i4 ring-i" type="text"
+                    placeholder="Money" value="100000000">
+            </div>
+            <div class="w-1/12 px-2">
+                <input id="js__risk" class="p-1 bw-1 bc--n3 w-100 f:o-n f:bc--i4 ring-i" type="text"
+                    placeholder="Risk %" value="0.02">
+            </div>
+            <div class="w-1/12 px-2">
+                <input id="js__entry" class="p-1 bw-1 bc--n3 w-100 f:o-n f:bc--i4 ring-i" type="text"
+                    placeholder="Entry">
+            </div>
+            <div class="w-1/12 px-2">
+                <input id="js__sl" class="p-1 bw-1 bc--n3 w-100 f:o-n f:bc--i4 ring-i" type="text" placeholder="SL">
+            </div>
+            <div class="w-1/12 px-2">
+                <button type="button" class="d-f ai-c jc-c bc-i5 c-w p-1 bw-1 bc--i5 w-100 h:bc-i6 a:bc-i5"
+                    style="height: 29px;">Calc</button>
+            </div>
+        </div>
+        <div class="d-f ai-c mt-6">
+            <b id="js__size" class="ws-nw"></b>
+        </div>
+    </div>
+    <script>
+        if (window.location.hostname.length > 0) {
+            let link = document.createElement('link');
+            link.href = 'https://dl.dropboxusercontent.com/s/8q9dhewl3ss46zh/mathilda.min.css?dl=0';
+            link.rel = 'stylesheet';
+
+            document.head.appendChild(link);
+        }
+
+        const toMoney = (n) => n.toLocaleString();
+
+        const BOORS_BUY_COM = 0.003712;
+        const BOORS_SELL_COM = 0.0088;
+        const BOORS_COM = BOORS_BUY_COM + BOORS_SELL_COM;
+        const FARA_BOORS_BUY_COM = 0.003632;
+        const FARA_BOORS_SELL_COM = 0.0088;
+        const FARA_BOORS_COM = FARA_BOORS_BUY_COM + FARA_BOORS_SELL_COM;
+
+        let typeEl = document.getElementById('js__type'),
+            moneyEl = document.getElementById('js__money'),
+            riskEl = document.getElementById('js__risk'),
+            entryEl = document.getElementById('js__entry'),
+            slEl = document.getElementById('js__sl'),
+            sizeEl = document.getElementById('js__size');
+
+        document.querySelector('button').addEventListener('click', () => {
+            let type = typeEl.value,
+                money = +moneyEl.value,
+                risk = parseFloat(riskEl.value),
+                entry = +entryEl.value,
+                sl = +slEl.value,
+                riskPerTrade = money * risk,
+                breakEven = Math.round(entry + (entry * (type === 'boors' ? BOORS_COM : FARA_BOORS_COM))),
+                size = Math.floor(riskPerTrade / (breakEven - sl)),
+                cost = Math.round(size * (entry + (type === 'boors' ? BOORS_BUY_COM : FARA_BOORS_BUY_COM))),
+                loss = size * (breakEven - sl);
+
+            sizeEl.innerText = 'Size: ' + toMoney(size) +
+                ' | Cost: ' + toMoney(cost) +
+                ' | Break-Even: ' + toMoney(breakEven) +
+                ' | Loss: ' + toMoney(loss);
+        }, false);
+    </script>
+</body>
+
+</html>
