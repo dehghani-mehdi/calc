@@ -28,7 +28,7 @@
             let _a = +a.value,
                 _b = +b.value;
 
-            rab.innerHTML = `${Math.floor(((_b - _a) / _a) * 100)}%`;
+            rab.innerHTML = `${Math.floor((((_b - _a) / _a) * 100) * 100) / 100}%`;
         }, false);
 
         cd.addEventListener('click', () => {
